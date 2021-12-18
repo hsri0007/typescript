@@ -37,11 +37,24 @@ const Homeallpages = () => {
         setSkillsData(res);
         setLoading(false);
         setSkillState(res.map((arr: any) => arr.name));
-        handleClick();
       })
       .catch(() => {
         setLoading(false);
       });
+  }, []);
+
+  React.useEffect(() => {
+    const obj = {};
+
+    let config = {
+      params: obj,
+      paramsSerializer: (params: any) => {
+        return qs.stringify(params, { arrayFormat: "brackets" });
+      },
+    };
+    getPresentationsByData(config).then((res: any) => {
+      setPresentationCardData(res);
+    });
   }, []);
 
   const handleClick = () => {

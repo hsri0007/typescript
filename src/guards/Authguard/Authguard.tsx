@@ -1,7 +1,12 @@
 import * as React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  getDataFromLocalStorage,
+  removeDataFromToStorage,
+  setDataFromToStorage,
+} from "../../helpers/helpers";
 
-export default function MenuAppBar({ children }: any) {
+export default function AuthGuard({ children }: any) {
   const {
     loginWithRedirect,
     logout,
@@ -27,11 +32,11 @@ export default function MenuAppBar({ children }: any) {
 
   React.useEffect(() => {
     const handlefunction = async () => {
-      const data = await window?.localStorage?.usertoken;
+      const data = await getDataFromLocalStorage();
 
       if (JSON.parse(data) === "checking") {
         loginWithRedirect();
-        window.localStorage.setItem("usertoken", JSON.stringify("checking"));
+        setDataFromToStorage("usertoken", "checking");
       }
 
       if (data) {
@@ -41,15 +46,15 @@ export default function MenuAppBar({ children }: any) {
     };
 
     handlefunction();
-  }, []);
+  }, [loginWithRedirect]);
 
   React.useEffect(() => {
     const handlefunction = async () => {
-      const data = await window?.localStorage?.usertoken;
+      const data = await getDataFromLocalStorage();
       if (!data) {
         if (!isAuthenticated) {
           loginWithRedirect();
-          window.localStorage.setItem("usertoken", JSON.stringify("checking"));
+          setDataFromToStorage("usertoken", JSON.stringify("checking"));
         }
       }
 
@@ -63,10 +68,9 @@ export default function MenuAppBar({ children }: any) {
   }, [loginWithRedirect, isAuthenticated]);
 
   const handleLogout: () => void = () => {
-    window.localStorage.removeItem("usertoken");
+    removeDataFromToStorage("usertoken");
     logout({ returnTo: window.location.origin });
-    window.localStorage.setItem("prevurl", window.location.pathname);
-    // window?.localStorage?.clear()
+    setDataFromToStorage("prevurl", window.location.pathname);
   };
 
   const data = {
