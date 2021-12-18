@@ -22,7 +22,7 @@ export default function AuthGuard({ children }: any) {
         audience: `${process.env.REACT_APP_AUDIENCE}`,
       }).then((res) => {
         const data = JSON.stringify({ ...user, token: res });
-        window.localStorage.setItem("usertoken", data);
+        setDataFromToStorage("usertoken", data);
         if (res) {
           setState({ ...user, token: res });
         }
