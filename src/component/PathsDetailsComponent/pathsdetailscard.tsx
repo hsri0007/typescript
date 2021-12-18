@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import IconButton from "@mui/material/IconButton";
@@ -11,7 +11,7 @@ import Tooltip from "@mui/material/Tooltip";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import MouseIcon from "@mui/icons-material/Mouse";
-import PathsModal from "./pathsdetailsmodal";
+import CustomModel from "../../custom_components/custom_model/custom_model";
 
 const PathDetailsCard: React.FC<any> = ({ data, path }: any) => {
   return (
@@ -87,9 +87,23 @@ const PathDetailsCard: React.FC<any> = ({ data, path }: any) => {
           </div>
         </Grid>
         <Grid item xs={4} style={{ marginTop: "38px", display: "flex" }}>
-          <PathsModal data={data} name="Preview" />
+          <CustomModel data={data}>
+            {(handleClickOpen: any) => (
+              <Button variant="outlined" onClick={() => handleClickOpen()}>
+                Preview
+              </Button>
+            )}
+          </CustomModel>
+          {/* <PathsModal data={data} name="Preview" /> */}
           <div style={{ marginLeft: "20px" }}>
-            <PathsModal data={data} name="Present" />
+            <CustomModel data={data}>
+              {(handleClickOpen: any) => (
+                <Button variant="outlined" onClick={() => handleClickOpen()}>
+                  Present
+                </Button>
+              )}
+            </CustomModel>
+            {/* <PathsModal data={data} name="Present" /> */}
           </div>
         </Grid>
       </Grid>

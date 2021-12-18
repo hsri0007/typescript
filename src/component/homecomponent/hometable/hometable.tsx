@@ -59,7 +59,7 @@ const BasicTable = () => {
             </TableRow>
           </TableHead>
           <TableBody component="tbody">
-            {rows.length > 0 ? (
+            {typeof rows === "object" ? (
               rows?.map((row: any) => (
                 <TableRow
                   key={row?.id}

@@ -5,6 +5,9 @@ import Homepage from "./pages/homepage/homepage";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Header from "./component/header/header";
 import PathsdetailsPage from "./pages/pathsdetailspage/pathsdetailspage";
+import Alert from "@mui/material/Alert";
+import Authguard from "./guards/Authguard/Authguard";
+import { root, PATH_DETAILS } from "./staticPaths";
 
 const App: React.FC = () => {
   return (
@@ -20,11 +23,26 @@ const App: React.FC = () => {
         window.location.href = "/";
       }}
     >
-      <Header />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/path-details/:id" element={<PathsdetailsPage />} />
-      </Routes>
+      <Authguard>
+        {(data: any) => (
+          <>
+            {!data?.state?.token ? (
+              <Alert severity="info">Checking Authentication Status....</Alert>
+            ) : (
+              <>
+                <Header />
+                <Routes>
+                  <Route path={root} element={<Homepage />} />
+                  <Route
+                    path={`/${PATH_DETAILS}/:id`}
+                    element={<PathsdetailsPage />}
+                  />
+                </Routes>
+              </>
+            )}
+          </>
+        )}
+      </Authguard>
     </Auth0Provider>
   );
 };
