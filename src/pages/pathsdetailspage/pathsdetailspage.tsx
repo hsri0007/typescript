@@ -1,4 +1,4 @@
-import PathsDetailsComponent from "../../component/PathsDetailsComponent/PathsDetailsComponent";
+import PathsDetailsComponent from "../../components/PathsDetailsComponent/PathsDetailsComponent";
 
 const PathsdetailsPage = () => {
   return (

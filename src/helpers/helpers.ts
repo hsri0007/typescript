@@ -1,4 +1,4 @@
-export const getDataFromLocalStorage = async () => {
+export const getUserTokenFromLocalStorage = async () => {
   const data = await window?.localStorage?.usertoken;
   return data;
 };

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
-  getDataFromLocalStorage,
+  getUserTokenFromLocalStorage,
   removeDataFromToStorage,
   setDataFromToStorage,
 } from "../../helpers/helpers";
@@ -32,7 +32,7 @@ export default function AuthGuard({ children }: any) {
 
   React.useEffect(() => {
     const handlefunction = async () => {
-      const data = await getDataFromLocalStorage();
+      const data = await getUserTokenFromLocalStorage();
 
       if (JSON.parse(data) === "checking") {
         loginWithRedirect();
@@ -50,7 +50,7 @@ export default function AuthGuard({ children }: any) {
 
   React.useEffect(() => {
     const handlefunction = async () => {
-      const data = await getDataFromLocalStorage();
+      const data = await getUserTokenFromLocalStorage();
       if (!data) {
         if (!isAuthenticated) {
           loginWithRedirect();

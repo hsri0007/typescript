@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Homepage from "./pages/homepage/homepage";
 import { Auth0Provider } from "@auth0/auth0-react";
-import Header from "./component/header/header";
+import Header from "./components/header/header";
 import PathsdetailsPage from "./pages/pathsdetailspage/pathsdetailspage";
 import Alert from "@mui/material/Alert";
 import Authguard from "./guards/Authguard/Authguard";

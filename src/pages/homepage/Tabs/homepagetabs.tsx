@@ -4,8 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import HomeComponent from "../../../component/homecomponent/homecomponent";
-import AllOptionsComponent from "../../../component/homecomponent/homeallpages";
+import HomeComponent from "../../../components/homecomponent/homecomponent";
+import AllOptionsComponent from "../../../components/homecomponent/homeallpages";
 
 function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
