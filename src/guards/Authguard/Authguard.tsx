@@ -32,15 +32,15 @@ export default function AuthGuard({ children }: any) {
 
   React.useEffect(() => {
     const handlefunction = async () => {
-      const data = await getUserTokenFromLocalStorage();
+      let data: any = await getUserTokenFromLocalStorage();
 
-      if (JSON.parse(data) === "checking") {
-        loginWithRedirect();
-        setDataFromToStorage("usertoken", "checking");
+      if (data === JSON.stringify("checking")) {
+        await loginWithRedirect();
+        setDataFromToStorage("usertoken", JSON.stringify("checking....."));
       }
 
       if (data) {
-        const parseddata = JSON.parse(data);
+        const parseddata = JSON.parse(JSON.stringify(data))
         setState(parseddata);
       }
     };

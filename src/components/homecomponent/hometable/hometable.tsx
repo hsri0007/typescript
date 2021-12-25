@@ -8,18 +8,27 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useNavigate } from "react-router-dom";
 import { getAllPaths } from "../../../apiCalls";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
 
-const BasicTable = () => {
+
+interface RowTypes{
+  id: Number
+name:String
+presentationCount: Number
+}
+
+const BasicTable:React.FC = () => {
   let history = useNavigate();
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = React.useState<RowTypes[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const matches = useMediaQuery('(max-width:600px)');
   React.useEffect(() => {
     setLoading(true);
 
     const LoadPaths = async () => {
       try {
         const data = await getAllPaths();
+      
         if (data?.length > 0) {
           setRows(data);
         }
@@ -43,7 +52,7 @@ const BasicTable = () => {
       </div>
       <TableContainer component={Paper}>
         <Table
-          sx={{ minWidth: 650 }}
+   
           aria-label="simple table"
           component="table"
         >
@@ -51,7 +60,7 @@ const BasicTable = () => {
             <TableRow component="tr">
               <TableCell component="th">Paths</TableCell>
               <TableCell component="th" align="right">
-                Number Of Options
+          {matches? "Number_Of_Options" : "Number Of Options"}
               </TableCell>
               <TableCell component="th" align="right">
                 Description
@@ -60,23 +69,23 @@ const BasicTable = () => {
           </TableHead>
           <TableBody component="tbody">
             {typeof rows === "object" ? (
-              rows?.map((row: any) => (
+              rows?.map(({id,name,presentationCount},i) => (
                 <TableRow
-                  key={row?.id}
+                  key={i}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   component={"tr"}
                 >
                   <TableCell component="td" scope="row">
-                    {row.name}
+                    {name}
                   </TableCell>
                   <TableCell component="td" align="right">
-                    {row.presentationCount}
+                    {presentationCount}
                   </TableCell>
                   <TableCell
                     component="td"
                     align="right"
                     style={{ color: "orange", cursor: "pointer" }}
-                    onClick={() => history(`/path-details/${row.id}`)}
+                    onClick={() => history(`/path-details/${id}`)}
                   >
                     View More
                   </TableCell>

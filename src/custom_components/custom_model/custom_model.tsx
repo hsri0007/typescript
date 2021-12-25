@@ -11,6 +11,23 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import MouseIcon from "@mui/icons-material/Mouse";
 
+
+
+
+interface PropsTypesDialog{
+  id:string
+onClose: ()=>any
+children?:any
+
+}
+interface CustomizeDialogTypes{
+ data?:any
+children?:any
+
+}
+
+
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -20,8 +37,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-const BootstrapDialogTitle = (props: any) => {
+const BootstrapDialogTitle = (props:PropsTypesDialog) => {
   const { children, onClose, ...other } = props;
+
 
   return (
     <DialogTitle sx={{ m: 0, p: 5 }} {...other}>
@@ -44,10 +62,11 @@ const BootstrapDialogTitle = (props: any) => {
   );
 };
 
-export default function CustomizedDialogs(props: any) {
+export default function CustomizedDialogs(props:CustomizeDialogTypes) {
   const [open, setOpen] = React.useState(false);
 
   const { data, children } = props;
+ 
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -71,12 +90,12 @@ export default function CustomizedDialogs(props: any) {
 
         <div style={{ marginLeft: "20px", marginBottom: "10px" }}>
           <iframe
-            src={data.url}
+            src={data?.url}
             style={{ height: "250px", width: "95%" }}
             title="Iframe Example"
           ></iframe>
 
-          <div dangerouslySetInnerHTML={{ __html: data.description }} />
+          <div dangerouslySetInnerHTML={{ __html: data?.description }} />
 
           <div>
             <div style={{ display: "flex", alignItems: "center" }}>

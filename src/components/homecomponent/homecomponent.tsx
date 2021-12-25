@@ -1,20 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import HomeTable from "./hometable/hometable";
 import Grid from "@mui/material/Grid";
 import { Pagination, Typography } from "@mui/material";
 
 const HomeComponent: React.FC = () => {
+  const [limit,setLimit]=useState(10)
+  const [offset,setOffset]=useState(1)
+
+
+ 
+
+
+  const handleChange=(e:any,newvalue:any)=>{
+    const newoffset = limit * newvalue
+console.log(newoffset)
+  }
+
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           <HomeTable />
+          <Grid container spacing={2} style={{ margin: "10px 0px" }}>
+        <Grid item xs={12} md={6}>
+          <Typography variant="body2" component={"div"} gutterBottom>
+            Showing 28 to 30 entries
+          </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={6}>
+          <Pagination count={6} color="primary" onChange={handleChange} />
+        </Grid>
+      </Grid>
+        </Grid>
+        <Grid item xs={12} md={4}>
           <Typography variant="h6" gutterBottom component="div">
             What is Team Training?
           </Typography>
-          <Typography variant="body1" component={"div"} gutterBottom>
+          <Typography variant="body1" component={'span'} gutterBottom>
             Headversity Team Training radically improve your psychological
             health and safety initiatives without adding preparation time or
             prolonging the meeting. With ﻿headversity's ﻿Team Training platform,
@@ -24,16 +46,6 @@ const HomeComponent: React.FC = () => {
             easily upskill staff to ensure a healthy, incident-free and
             supportive workplace.
           </Typography>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} style={{ margin: "10px 0px" }}>
-        <Grid item xs={4}>
-          <Typography variant="body2" component={"div"} gutterBottom>
-            Showing 28 to 30 entries
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Pagination count={10} color="primary" />
         </Grid>
       </Grid>
     </div>

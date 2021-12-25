@@ -18,17 +18,28 @@ const MenuProps = {
   },
 };
 
-console.log("*");
 
-export default function MultipleSelectCheckmarks({
+
+
+
+interface dropdownType{
+  title:String
+  names:String[] | Number[]
+  personName:String[] | Number[]
+setPersonName:  React.Dispatch<React.SetStateAction<any[]>>
+}
+
+
+
+const MultipleSelectCheckmarks:React.FC<dropdownType>=({
   title,
   names,
   personName,
   setPersonName,
-}: any) {
+}: dropdownType)=> {
   const [checkedAll, setCheckedAll] = React.useState(true);
 
-  const handleChange = (event: any) => {
+  const handleChange = (event:any) => {
     if (event.target.value[event.target.value.length - 1] === undefined) {
       return;
     }
@@ -54,11 +65,12 @@ export default function MultipleSelectCheckmarks({
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 200 }}>
+      <FormControl sx={{ m: 1,width:"100%" }}>
         <InputLabel id="demo-multiple-checkbox-label">{title}</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
+          fullWidth
           multiple
           value={personName}
           onChange={handleChange}
@@ -70,11 +82,11 @@ export default function MultipleSelectCheckmarks({
             <Checkbox checked={checkedAll} />
             <ListItemText primary={"Select All"} />
           </MenuItem>
-          {names.map((name: any) => (
+          {names.map((name:any) => (
             <MenuItem key={name} value={name}>
               <Checkbox
                 checked={personName?.indexOf(name) > -1}
-                defaultChecked={true}
+            
               />
               <ListItemText primary={name} />
             </MenuItem>
@@ -84,3 +96,6 @@ export default function MultipleSelectCheckmarks({
     </div>
   );
 }
+
+
+export default MultipleSelectCheckmarks;

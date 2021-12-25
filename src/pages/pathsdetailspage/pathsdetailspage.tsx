@@ -1,6 +1,7 @@
+import React from "react";
 import PathsDetailsComponent from "../../components/PathsDetailsComponent/PathsDetailsComponent";
 
-const PathsdetailsPage = () => {
+const PathsdetailsPage:React.FC = () => {
   return (
     <div>
       <PathsDetailsComponent />

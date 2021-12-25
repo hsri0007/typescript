@@ -16,13 +16,40 @@ import qs from "qs";
 import SearchIcon from "@mui/icons-material/Search";
 import { getAllSkills, getPresentationsByData } from "../../apiCalls";
 
-const Homeallpages = () => {
-  const [searchText, setsearchText] = useState("");
-  const [skillsData, setSkillsData] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
-  const [presentationCardData, setPresentationCardData] = useState([]);
 
-  const [skills, setSkillState] = useState<any>([]);
+
+interface skilldatobj {
+  class: String
+  description: String
+  id: Number
+  name: String
+}
+
+interface PresentationType{
+  description:String
+duration: String
+id: Number
+image: String
+intent: String
+interactive: Boolean
+name: String
+practice: Boolean
+private: Boolean
+scope: String
+train: Boolean
+url:String
+video: Boolean
+
+}
+
+
+const Homeallpages = () => {
+  const [searchText, setsearchText] = useState<String>("");
+  const [skillsData, setSkillsData] = useState<skilldatobj[]>([]);
+  const [loading, setLoading] = useState<Boolean>(false);
+  const [presentationCardData, setPresentationCardData] = useState<PresentationType[]>([]);
+
+  const [skills, setSkillState] = useState<String[] >([]);
 
   const [duration, setDuration] = useState([3, 5, 7]);
 
@@ -30,13 +57,27 @@ const Homeallpages = () => {
 
   const [intent, setIntent] = useState(["StandUp", "SitDown"]);
 
+  const [limit,setLimit]=useState(10)
+  const [offset,setOffset]=useState(1)
+
+
+ 
+
+
+  const handleChange=(e:any,newvalue:any)=>{
+    const newoffset = limit * newvalue
+console.log(newoffset)
+  }
+
+
+
   React.useEffect(() => {
     setLoading(true);
     getAllSkills()
-      .then((res: any) => {
+      .then((res: skilldatobj[]) => {
         setSkillsData(res);
         setLoading(false);
-        setSkillState(res.map((arr: any) => arr.name));
+        setSkillState(res.map((arr: skilldatobj) => arr.name));
       })
       .catch(() => {
         setLoading(false);
@@ -48,21 +89,22 @@ const Homeallpages = () => {
 
     let config = {
       params: obj,
-      paramsSerializer: (params: any) => {
+      paramsSerializer: (params: Object) => {
         return qs.stringify(params, { arrayFormat: "brackets" });
       },
     };
-    getPresentationsByData(config).then((res: any) => {
+    getPresentationsByData(config).then((res:any) => {
+      
       setPresentationCardData(res);
     });
   }, []);
 
   const handleClick = () => {
-    const filterskills: any = skillsData?.filter((res: any, i: number) =>
+    const filterskills = skillsData?.filter((res: skilldatobj, i: number) =>
       skills.includes(res.name)
     );
     const obj = {
-      skillId: filterskills.map((res: any) => res?.id),
+      skillId: filterskills.map((res) => res?.id),
       duration,
       scope,
       intent,
@@ -71,11 +113,18 @@ const Homeallpages = () => {
 
     let config = {
       params: obj,
-      paramsSerializer: (params: any) => {
+      paramsSerializer: (params: {
+        skillId: Number[];
+        duration: number[];
+        scope: string[];
+        intent: string[];
+        searchText: String;
+    }) => {
         return qs.stringify(params, { arrayFormat: "brackets" });
       },
     };
-    getPresentationsByData(config).then((res: any) => {
+    getPresentationsByData(config).then((res:any) => {
+     
       setPresentationCardData(res);
     });
   };
@@ -83,7 +132,7 @@ const Homeallpages = () => {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item container xs={9} spacing={2}>
+        <Grid item container xs={12} md={9} spacing={2}>
           <Grid
             item
             container
@@ -91,15 +140,15 @@ const Homeallpages = () => {
             spacing={2}
             style={{ marginBottom: "20px" }}
           >
-            <Grid item xs={2.5}>
+            <Grid item xs={12} md={2.5}>
               <DropDownComponent
                 title="Skill"
-                names={skillsData.map((res: any) => res.name)}
+                names={skillsData.map((res) => res.name)}
                 personName={skills}
                 setPersonName={setSkillState}
               />
             </Grid>
-            <Grid item xs={2.5}>
+            <Grid item xs={12} md={2.5}>
               <DropDownComponent
                 title="Duration"
                 names={[3, 5, 7]}
@@ -107,7 +156,7 @@ const Homeallpages = () => {
                 setPersonName={setDuration}
               />
             </Grid>
-            <Grid item xs={2.5}>
+            <Grid item xs={12} md={2.5}>
               <DropDownComponent
                 title="Scope"
                 names={["Starter", "Advanced", "Veteran"]}
@@ -115,7 +164,7 @@ const Homeallpages = () => {
                 setPersonName={setScope}
               />
             </Grid>
-            <Grid item xs={2.5}>
+            <Grid item xs={12} md={2.5}>
               <DropDownComponent
                 title="Intent"
                 names={["StandUp", "SitDown"]}
@@ -123,19 +172,19 @@ const Homeallpages = () => {
                 setPersonName={setIntent}
               />
             </Grid>
-            <Grid item xs={2}>
-              <FormControl sx={{ m: 1, width: "18ch" }} variant="outlined">
+            <Grid item xs={12} md={2}>
+              <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
                 <OutlinedInput
                   id="outlined-adornment-weight"
                   onChange={(e) => setsearchText(e.target.value)}
                   placeholder="search"
                   endAdornment={
                     <InputAdornment position="end">
-                      <IconButton>
+                      <IconButton onClick={handleClick}>
                         <SearchIcon
                           color="secondary"
                           style={{ cursor: "pointer" }}
-                          onClick={handleClick}
+
                         />
                       </IconButton>
                     </InputAdornment>
@@ -148,21 +197,32 @@ const Homeallpages = () => {
               </FormControl>
             </Grid>
           </Grid>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <div style={{ display: "grid", placeItems: "center" }}>
               {loading && <CircularProgress />}
             </div>
           </Grid>
-          <Grid xs={12}>
+          
+          <Grid item xs={12}>
             <Divider />
           </Grid>
           {presentationCardData?.map((res, i) => (
-            <Grid item xs={4} key={i}>
-              <HomeCard data={res} />
+            <Grid item xs={12} sm={6} md={4} key={i}>
+              <HomeCard data={res} /> 
             </Grid>
           ))}
+              <Grid container spacing={2} style={{ margin: "10px 0px" }}>
+        <Grid item xs={12} md={4}>
+          <Typography variant="body2" component={"div"} gutterBottom>
+            Showing 28 to 30 entries
+          </Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={4}>
+          <Pagination count={10} color="primary" onChange={handleChange} />
+        </Grid>
+      </Grid>
+        </Grid>
+        <Grid item xs={12} md={3}>
           <Typography variant="h6" gutterBottom component="div">
             What is Team Training?
           </Typography>
@@ -176,16 +236,6 @@ const Homeallpages = () => {
             easily upskill staff to ensure a healthy, incident-free and
             supportive workplace.
           </Typography>
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} style={{ margin: "10px 0px" }}>
-        <Grid item xs={4}>
-          <Typography variant="body2" component={"div"} gutterBottom>
-            Showing 28 to 30 entries
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Pagination count={10} color="primary" />
         </Grid>
       </Grid>
     </div>

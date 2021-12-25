@@ -10,11 +10,18 @@ import Menu from "@mui/material/Menu";
 import { Button } from "@mui/material";
 import Authguard from "../../guards/Authguard/Authguard";
 import { useNavigate } from "react-router-dom";
+import { RedirectLoginOptions } from "@auth0/auth0-react";
+
+interface authprops {
+  handleLogout: () => void;
+  state: any;
+  loginWithRedirect: (options?: RedirectLoginOptions | undefined) => Promise<void>;
+}
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const history = useNavigate();
-  const handleMenu: (event: any) => void = (event: any) => {
+  const handleMenu : (event: any) => void = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -25,9 +32,9 @@ const Header = () => {
   return (
     <div>
       <Authguard>
-        {(data: any) => (
+        {(data: authprops) => (
           <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed"  >
               <Toolbar>
                 {
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

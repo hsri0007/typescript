@@ -7,7 +7,16 @@ import Box from "@mui/material/Box";
 import HomeComponent from "../../../components/homecomponent/homecomponent";
 import AllOptionsComponent from "../../../components/homecomponent/homeallpages";
 
-function TabPanel(props: any) {
+
+
+interface PropsFC {
+  index: number
+  value: number
+  children: JSX.Element
+}
+
+function TabPanel(props: PropsFC) {
+
   const { children, value, index, ...other } = props;
 
   return (
@@ -19,8 +28,8 @@ function TabPanel(props: any) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box sx={{ p: 3 }} component={'span'}>
+          <Typography component={'span'}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -43,7 +52,7 @@ function a11yProps(index: any) {
 const HomepageTabs: React.FC = () => {
   const [value, setValue] = React.useState<number>(0);
 
-  const handleChange: (event: any, newValue: any) => void = (
+  const handleChange: (event: React.SyntheticEvent<Element, Event>, newValue: number) => void = (
     event,
     newValue
   ) => {

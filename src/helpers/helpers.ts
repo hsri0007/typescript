@@ -1,6 +1,6 @@
 export const getUserTokenFromLocalStorage = async () => {
   const data = await window?.localStorage?.usertoken;
-  return data;
+  return data
 };
 export const setDataFromToStorage = (key: string, value: string) => {
   window.localStorage.setItem(key, value);

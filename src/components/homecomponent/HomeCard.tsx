@@ -13,8 +13,29 @@ import ConstructionIcon from "@mui/icons-material/Construction";
 import MouseIcon from "@mui/icons-material/Mouse";
 import CustomModel from "../../custom_components/custom_model/custom_model";
 
-const HomeCard = (props: any) => {
-  const { data } = props;
+interface PropsFC{
+  description:String
+duration: String
+id: Number
+image: String
+intent: String
+interactive: Boolean
+name: String
+practice: Boolean
+private: Boolean
+scope: String
+train: Boolean
+url:String
+video: Boolean
+
+}
+
+interface PropsData{
+  data :PropsFC
+}
+
+const HomeCard:React.FC<PropsData> = ({data}: PropsData) => {
+
   const path =
     "https://headversity-staging.s3.ca-central-1.amazonaws.com/admin/";
   return (

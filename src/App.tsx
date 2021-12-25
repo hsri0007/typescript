@@ -8,8 +8,11 @@ import PathsdetailsPage from "./pages/pathsdetailspage/pathsdetailspage";
 import Alert from "@mui/material/Alert";
 import Authguard from "./guards/Authguard/Authguard";
 import { root, PATH_DETAILS } from "./staticPaths";
+import { styled } from '@mui/material/styles';
 
 const App: React.FC = () => {
+  const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
+
   return (
     <Auth0Provider
       domain={`${process.env.REACT_APP_DOMAIN}`}
@@ -31,6 +34,7 @@ const App: React.FC = () => {
             ) : (
               <>
                 <Header />
+                <Offset/>
                 <Routes>
                   <Route path={root} element={<Homepage />} />
                   <Route
